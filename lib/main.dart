@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:animals/details.dart';
 import 'package:animals/global.dart';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,6 @@ void main() async {
   Database database = await openDatabase(path);
 
   list = await database.rawQuery('SELECT * FROM Animals');
-  list.toList().toSet();
 
   for (var row in list) {
     // print(row);
@@ -71,30 +71,44 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    Set<String> categories =
+        Set<String>.from(list.map((item) => item['Category']));
+    uniqueList = categories.map((category) => {'Category': category}).toList();
+    print(uniqueList);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: GridView.count(
         crossAxisCount: 2,
         crossAxisSpacing: 10.0,
         mainAxisSpacing: 10.0,
         shrinkWrap: true,
         children: List.generate(
-          list.length,
+          uniqueList.length,
           (index) {
             return Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Color(0xffFFFFD270),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Details(),
+                      ));
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Color(0xffFFFFD270),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20.0),
+                    ),
                   ),
+                  child: Text((uniqueList[index]['Category'])),
                 ),
-                child: Text((list[index]['Category'])),
               ),
             );
           },
