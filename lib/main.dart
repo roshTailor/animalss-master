@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisSpacing: 10.0,
         shrinkWrap: true,
         children: List.generate(
-          uniqueList.length,
+          list.length,
           (index) {
             return Padding(
               padding: const EdgeInsets.all(10.0),
@@ -96,7 +96,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Details(),
+                        builder: (context) => ListPage(
+                          index: index,
+                        ),
                       ));
                 },
                 child: Container(
@@ -107,7 +109,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       Radius.circular(20.0),
                     ),
                   ),
-                  child: Text((uniqueList[index]['Category'])),
+                  child: Column(
+                    children: [
+                      Text(
+                        (list[index]['Category']),
+                      ),
+                      Image.network(list[index]['Image'])
+                    ],
+                  ),
                 ),
               ),
             );

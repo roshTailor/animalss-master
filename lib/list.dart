@@ -3,26 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-class ListPage extends StatefulWidget {
+class List extends StatefulWidget {
   int index;
+  String name;
 
-  ListPage({super.key, required this.index});
+  List({super.key, required this.index, required this.name});
 
   @override
-  State<ListPage> createState() => _ListPageState();
+  State<List> createState() => _ListState();
 }
 
-class _ListPageState extends State<ListPage> {
+class _ListState extends State<List> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Column(
         children: [
-          (list[widget.index]['Name'] == list[widget.index]['Name'])
-              ? Image.network(list[widget.index]['Image'])
-              : Container()
-        ],
+          Text(list[widget.index]['Name']),
+          Image.network(list[widget.index]['Image'])],
       ),
     );
   }
